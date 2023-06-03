@@ -8,7 +8,7 @@ def create_app():
     app = Flask(__name__) # Create a Flask application instance
     app.config['SECRET_KEY'] = "helloworld"
     
-    from .views import views
+    from .views import views # (Relative) import inside the python package
     from .auth import auth
     
     app.register_blueprint(views, url_prefix="/") # Register the views Blueprint with the application
