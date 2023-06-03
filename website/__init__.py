@@ -8,8 +8,10 @@ def create_app():
     app = Flask(__name__) # Create a Flask application instance
     app.config['SECRET_KEY'] = "helloworld"
     
-    @app.route("/") # Create Flask route (shows up on website)
-    def home(): 
-        return "<h1>Hello</h1>"
+    from .views import views
+    from .auth import auth
+    
+    app.register_blueprint(views, url_prefix="/") # Register the views Blueprint with the application
+    app.register_blueprint(auth, url_prefix="/")
     
     return app # Return the created application instance
