@@ -4,10 +4,10 @@ from .models import User
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
-auth = Blueprint("auth", __name__) # Create a Blueprint instance named "auth"
+auth = Blueprint("auth", __name__)
 
 
-@auth.route("/login", methods=['GET', 'POST']) # Define a route for the "/login" URL
+@auth.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get("email")
@@ -24,7 +24,7 @@ def login():
         else:
             flash('Email does not exist.', category='error')
 
-    return render_template("login.html") # Render "login.html" template and return it as the response
+    return render_template("login.html", user=current_user)
 
 
 @auth.route("/sign-up", methods=['GET', 'POST'])
@@ -55,15 +55,15 @@ def sign_up():
                 password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
-            login_user(new_user, remember=True) # Function must be called in current user session to access page
+            login_user(new_user, remember=True)
             flash('User created!')
             return redirect(url_for('views.home'))
 
-    return render_template("signup.html")
+    return render_template("signup.html", user=current_user)
 
 
 @auth.route("/logout")
-@login_required # User can only access page if logged in
+@login_required
 def logout():
     logout_user()
     return redirect(url_for("views.home"))
