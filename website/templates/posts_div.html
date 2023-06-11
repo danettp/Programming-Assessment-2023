@@ -24,6 +24,8 @@
     <div class="card-body">
         <div class="card-text">{{post.text}}</div>
         <br />
+        {% for comment in post.comments %} {{ comment.text }} {% endfor %}
+        <br />
         <form
         class="input-group mb-3"
         method="POST"
