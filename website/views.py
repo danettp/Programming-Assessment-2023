@@ -18,9 +18,17 @@ def create_post():
     if request.method == "POST":
         text = request.form.get('text')
 
-    if not text:
-        flash('Post cannot be empty', category='error')
-    else:
-        flash('Post created!', category='success')
+        if not text:
+            flash('Post cannot be empty', category='error')
+        else:
+            post = Post(text=text, author=current_user.id)
+            db.session.add(post)
+            db.session.commit()
+            flash('Post created!', category='success')
+            return redirect(url_for('views.home'))
+
+    return render_template('create_post.html', user=current_user)
+
+
 
     return render_template('create_post.html', user=current_user)
