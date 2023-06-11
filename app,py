@@ -4,4 +4,5 @@ if __name__ == "__main__":
     app = create_app()  # Create a Flask application instance using the create_app function
     app.run(debug=True) # Run the Flask application in debug mode
 
-#(4) 12:52 Displaying Comments
+#(5) Start
+# Fix Bug - comments can be deleted by other users but fix so comment can only be deleted by author
