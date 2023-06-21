@@ -10,6 +10,7 @@
           <span id="likes-count-{{post.id}}">
           {{ post.likes|length }}</span> 
           {% if user.id in post.likes|map(attribute="author")|list %}
+          <!-- Likes icon -->
           <i
             class="fas fa-thumbs-up"
             id="like-button-{{post.id}}"
@@ -92,6 +93,7 @@
           method="POST"
           action="/create-comment/{{post.id}}"
         >
+        <!-- Format comment section of post -->
           <input
             type="text"
             id="text"
@@ -107,6 +109,7 @@
     <br /> {% endfor %}
   </div>
   {% block footer %}
+  <!-- Create Post button -->
   <div align="center">
     <a href="/create-post"
       ><button type="button" class="btn btn-primary btn-lg">

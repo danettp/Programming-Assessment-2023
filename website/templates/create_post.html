@@ -1,16 +1,19 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
+<!-- Header for page -->
 <h1 align="center">Make a Post</h1>
 
+<!-- Format Create Post Page -->
 <form method="POST">
     <textarea name="text" id="text" class="form-control"></textarea>
     <br />
     <div align="center">
-    <button type="submit" class="btn btn-lg btn-primary">Post</button>
+    <button type="submit" class="btn btn-lg btn-primary">Post</button> <!-- Submit button -->
     </div>
 </form>
 <br />
 <div align="center">
+    <!-- Back button -->
     <a href="/home"
     ><button type="button" class="btn btn-lg btn-secondary">Back</button></a
     >

@@ -17,6 +17,7 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
+    <!-- Navbar colour -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <button
@@ -27,8 +28,9 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbar">
+        <div class="collapse navbar-collapse" id="navbar"> <!-- Allow navbar to collapse depending on screen size -->
           <div class="navbar-nav">
+            <!-- Navbar linked html pages -->
             <a class="nav-item nav-link" href="/home">Home</a>
             {% if user.is_authenticated %}
             <a class="nav-item nav-link" href="/logout">Logout</a>
@@ -43,6 +45,7 @@
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %} {% if category ==
     'error' %}
+    <!-- Flash error messages -->
     <div class="alert alert-danger alter-dismissible fade show" role="alert">
       {{ message }}
       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>

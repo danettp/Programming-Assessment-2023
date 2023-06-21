@@ -5,15 +5,17 @@ from . import db
 
 views = Blueprint("views", __name__)
 
-
+# Home route
 @views.route("/")
 @views.route("/home")
 @login_required
 def home():
+    # Retrieve all posts from the database
     posts = Post.query.all()
     return render_template("home.html", user=current_user, posts=posts)
 
 
+# Create post route
 @views.route("/create-post", methods=['GET', 'POST'])
 @login_required
 def create_post():
@@ -23,6 +25,7 @@ def create_post():
         if not text:
             flash('Post cannot be empty', category='error')
         else:
+            # Create a new post and add it to the database
             post = Post(text=text, author=current_user.id)
             db.session.add(post)
             db.session.commit()
@@ -35,13 +38,14 @@ def create_post():
 @views.route("/delete-post/<id>")
 @login_required
 def delete_post(id):
-    post = Post.query.filter_by(id=id).first()
+    post = Post.query.filter_by(id=id).first() # Find the post with the specified id
 
     if not post:
         flash("Post does not exist.", category='error')
     elif current_user.id != post.id:
         flash('You do not have permission to delete this post.', category='error')
     else:
+        # Delete the post from the database
         db.session.delete(post)
         db.session.commit()
         flash('Post deleted.', category='success')
@@ -49,13 +53,14 @@ def delete_post(id):
     return redirect(url_for('views.home'))
 
 
+# Route for viewing a user's 'profile' of posts
 @views.route("/posts/<username>")
 @login_required
 def posts(username):
     user = User.query.filter_by(username=username).first()
 
     if not user:
-        flash('No user with that username exists.', category='error')
+        flash('No user with that username exists.', category='error') # Flash error message when username is taken/non-existent
         return redirect(url_for('views.home'))
 
     posts = user.posts
@@ -68,7 +73,7 @@ def create_comment(post_id):
     text = request.form.get('text')
 
     if not text:
-        flash('Comment cannot be empty.', category='error')
+        flash('Comment cannot be empty.', category='error') # Flash error message when empty
     else:
         post = Post.query.filter_by(id=post_id)
         if post:
@@ -90,6 +95,7 @@ def delete_comment(comment_id):
     if not comment:
         flash('Comment does not exist.', category='error')
     elif current_user.id != comment.author and current_user.id != comment.post.author:
+        # Check if the current user is the author of the comment or the post
         flash('You do not have permission to delete this comment.', category='error')
     else:
         db.session.delete(comment)
@@ -115,4 +121,5 @@ def like(post_id):
         db.session.add(like)
         db.session.commit()
 
-    return jsonify({"likes": len(post.likes), "liked": current_user.id in map(lambda x: x.author, post.likes)}) 
+    return jsonify({"likes": len(post.likes), # Returns the total number of likes for the post
+                    "liked": current_user.id in map(lambda x: x.author, post.likes)}) # Checks if the current user has liked the post
